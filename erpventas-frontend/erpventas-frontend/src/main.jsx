@@ -1,9 +1,11 @@
-import { StrictMode } from 'react'
+import React from 'react';
 import { createRoot } from 'react-dom/client'
-import {ProductsApp} from './ProductsApp.jsx'
+import App from './App';              // Importamos el componente principal
+import "/src/styles/global.css";         // 👈 Importamos los estilos globales
+
 
 createRoot(document.getElementById('root')).render(
-  //<StrictMode> // No debe estar en produccion ya que hace doble renderizado
-    <ProductsApp title={'Hola Mundo React!'}/>
- // </StrictMode>,
+   <React.StrictMode>
+    <App />
+  </React.StrictMode>
 )

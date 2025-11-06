@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categorias")
-@CrossOrigin(origins = "http://localhost:3000") // para usar en react
+//@CrossOrigin(origins = "http://localhost:5173") // para usar en react
 public class CategoriaController {
 
     private final CategoriaService categoriaService;
