@@ -6,20 +6,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/categorias")
-@CrossOrigin(origins = "http://localhost:3000")// para react
+@CrossOrigin(origins = "http://localhost:3000") // para usar en react
 public class CategoriaController {
-    public final CategoriaService categoriaService;
 
+    private final CategoriaService categoriaService;
 
     public CategoriaController(CategoriaService categoriaService) {
         this.categoriaService = categoriaService;
     }
 
     @GetMapping
-    public List<Categoria> listar () {
+    public List<Categoria> listar() {
         return categoriaService.listar();
     }
 
@@ -27,6 +26,4 @@ public class CategoriaController {
     public Categoria guardar(@RequestBody Categoria categoria) {
         return categoriaService.guardar(categoria);
     }
-
-
 }

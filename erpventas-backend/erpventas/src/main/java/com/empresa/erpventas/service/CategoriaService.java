@@ -19,8 +19,7 @@ public class CategoriaService {
         return categoriaRepository.findAll();
     }
 
-    public Categoria guardar(Categoria categoria){
+    public Categoria guardar(Categoria categoria) {
         return categoriaRepository.save(categoria);
     }
-
 }
