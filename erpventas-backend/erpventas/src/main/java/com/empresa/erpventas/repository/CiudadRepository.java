@@ -1,9 +1,9 @@
 package com.empresa.erpventas.repository;
 
-import com.empresa.erpventas.entities.Categoria;
+import com.empresa.erpventas.entities.Ciudad;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CategoriaRepository extends JpaRepository <Categoria, Long> {
+public interface CiudadRepository extends JpaRepository <Ciudad, Long> {
 }

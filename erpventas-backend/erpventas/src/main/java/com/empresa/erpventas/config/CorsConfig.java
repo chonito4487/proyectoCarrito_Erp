@@ -16,7 +16,10 @@ public class CorsConfig {
                         "http://localhost:5173", // para desarrollo local con React
                         "https://tusitio.netlify.app", // futuro dominio en producción
                         "https://tu-dominio.com"       // extra
-                ).allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowedHeaders("*");
+                ).allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .exposedHeaders("Authorization") // para JWT
+                        .allowCredentials(true); // para envíar cookies o tokens con credenciales
             }
         };
     }

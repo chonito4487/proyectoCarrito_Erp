@@ -1,25 +1,13 @@
 package com.empresa.erpventas.service;
 
 import com.empresa.erpventas.entities.Categoria;
-import com.empresa.erpventas.repository.CategoriaRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
-public class CategoriaService {
-
-    private final CategoriaRepository categoriaRepository;
-
-    public CategoriaService(CategoriaRepository categoriaRepository) {
-        this.categoriaRepository = categoriaRepository;
-    }
-
-    public List<Categoria> listar() {
-        return categoriaRepository.findAll();
-    }
-
-    public Categoria guardar(Categoria categoria) {
-        return categoriaRepository.save(categoria);
-    }
+public interface CategoriaService {
+    List<Categoria> listarCategoria();
+    Optional<Categoria> buscarPorId(Long id);
+    Categoria guardarCategoria(Categoria categoria);
+    Optional<Categoria> eliminarCategoria(Long id);
 }
