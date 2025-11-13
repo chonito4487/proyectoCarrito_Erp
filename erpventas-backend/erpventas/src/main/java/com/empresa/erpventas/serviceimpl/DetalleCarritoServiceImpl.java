@@ -3,11 +3,13 @@ package com.empresa.erpventas.serviceimpl;
 import com.empresa.erpventas.entities.DetalleCarrito;
 import com.empresa.erpventas.repository.DetalleCarritoRepository;
 import com.empresa.erpventas.service.DetalleCarritoService;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class DetalleCarritoServiceImpl implements DetalleCarritoService {
 
     private final DetalleCarritoRepository detalleCarritoRepository;
@@ -50,6 +52,11 @@ public class DetalleCarritoServiceImpl implements DetalleCarritoService {
             return detalleOpt;
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void eliminarPorCarritoId(Long idCarrito) {
+        detalleCarritoRepository.deleteByCarrito_IdCarrito(idCarrito);
     }
 
 }

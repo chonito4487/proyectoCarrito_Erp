@@ -10,4 +10,5 @@ public interface DetalleCarritoService {
     DetalleCarrito guardarDetalleCarrito(DetalleCarrito detalleCarrito);
     Optional<DetalleCarrito> eliminarDetalleCarrito(Long id);
     List<DetalleCarrito> listarPorIdCarrito(Long idCarrito);
+    void eliminarPorCarritoId(Long idCarrito);
 }

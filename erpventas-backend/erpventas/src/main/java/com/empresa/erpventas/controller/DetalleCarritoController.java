@@ -4,10 +4,7 @@ import com.empresa.erpventas.entities.Carrito;
 import com.empresa.erpventas.entities.Deposito;
 import com.empresa.erpventas.entities.DetalleCarrito;
 import com.empresa.erpventas.entities.Producto;
-import com.empresa.erpventas.service.CarritoService;
-import com.empresa.erpventas.service.DepositoService;
-import com.empresa.erpventas.service.DetalleCarritoService;
-import com.empresa.erpventas.service.ProductoService;
+import com.empresa.erpventas.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +20,14 @@ public class DetalleCarritoController {
     private final CarritoService carritoService;
     private final ProductoService productoService;
     private final DepositoService depositoService;
+    private final StockService stockService;
 
-    public DetalleCarritoController(DetalleCarritoService detCarritoService, CarritoService carritoService, ProductoService productoService, DepositoService depositoService) {
+    public DetalleCarritoController(DetalleCarritoService detCarritoService, CarritoService carritoService, ProductoService productoService, DepositoService depositoService, StockService stockService) {
         this.detCarritoService = detCarritoService;
         this.carritoService = carritoService;
         this.productoService = productoService;
         this.depositoService = depositoService;
+        this.stockService = stockService;
     }
 
     @GetMapping
@@ -157,4 +156,43 @@ public class DetalleCarritoController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @DeleteMapping("/carrito/{idCarrito}")
+    public ResponseEntity<String> eliminarDetallesPorCarritoId(@PathVariable Long idCarrito) {
+
+        Optional<Carrito> carritoOpt = carritoService.buscarPorId(idCarrito);
+        if (carritoOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Carrito no encontrado.");
+        }
+
+        List<DetalleCarrito> detalles = detCarritoService.listarPorIdCarrito(idCarrito);
+        if (detalles.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("El carrito no tiene detalles para eliminar.");
+        }
+
+        detCarritoService.eliminarPorCarritoId(idCarrito);
+        return ResponseEntity.ok("Detalles del carrito eliminados correctamente.");
+    }
+
+    @PostMapping
+    public ResponseEntity<DetalleCarrito> agregarDetalleCarrito(@RequestBody DetalleCarrito detalle) {
+
+        Long idPro = detalle.getProducto().getIdPro();
+        Long idDepo = detalle.getDeposito().getIdDepo();
+        int cantidad = detalle.getCantidad();
+
+        // Validamos stock antes de agregar
+        if (!stockService.hayStockDisponible(idPro, idDepo, cantidad)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null); // Podrías también devolver un mensaje de error personalizado
+        }
+
+        DetalleCarrito nuevo = detCarritoService.guardarDetalleCarrito(detalle);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+    }
+
+
+
 }

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface DetalleCarritoRepository extends JpaRepository <DetalleCarrito, Long> {
     List<DetalleCarrito> findByCarrito_IdCarrito(Long idCarrito);
+    void deleteByCarrito_IdCarrito(Long idCarrito);
 }

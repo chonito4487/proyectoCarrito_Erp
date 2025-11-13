@@ -41,6 +41,13 @@ public class StockController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/producto/{idPro}")
+    public ResponseEntity<Stock> buscarPorProductoId(@PathVariable Long idPro) {
+        return stockService.buscarPorProductoId(idPro)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<Stock> guardarStock(@RequestBody Stock stock) {
 

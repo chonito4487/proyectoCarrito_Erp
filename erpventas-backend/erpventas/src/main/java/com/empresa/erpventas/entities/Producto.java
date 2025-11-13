@@ -2,6 +2,9 @@ package com.empresa.erpventas.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "productos")
 public class Producto {
@@ -38,11 +41,14 @@ public class Producto {
     @Column(name = "estado_pro")
     private Boolean estadoPro;
 
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Stock> stocks = new ArrayList<>();
+
     public Producto() {
     }
 
     public Producto(Long idPro, String nombrePro, String codProd, String descripcion, String imagenPro, Integer precioCompra,
-                    Integer precioVenta, Categoria categoria, Boolean estadoCompra, Boolean estadoPro) {
+                    Integer precioVenta, Categoria categoria, Boolean estadoCompra, Boolean estadoPro, List<Stock> stocks) {
         this.idPro = idPro;
         this.nombrePro = nombrePro;
         this.codProd = codProd;
@@ -53,6 +59,7 @@ public class Producto {
         this.categoria = categoria;
         this.estadoCompra = estadoCompra;
         this.estadoPro = estadoPro;
+        this.stocks = stocks;
     }
 
     public Long getIdPro() {
@@ -133,5 +140,13 @@ public class Producto {
 
     public void setEstadoPro(Boolean estadoPro) {
         this.estadoPro = estadoPro;
+    }
+
+    public List<Stock> getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(List<Stock> stocks) {
+        this.stocks = stocks;
     }
 }

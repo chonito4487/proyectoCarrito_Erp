@@ -30,6 +30,11 @@ public class StockServiceImpl implements StockService {
         return stockRepository.findById(id);
     }
 
+    @Override
+    public Optional<Stock> buscarPorProductoId(Long idPro) {
+        return stockRepository.findByProductoId(idPro);
+    }
+
     @Transactional
     @Override
     public Stock guardarStock(Stock stock) {
@@ -46,5 +51,18 @@ public class StockServiceImpl implements StockService {
         }
 
         return Optional.empty();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<Stock> buscarPorProductoYDeposito(Long idPro, Long idDepo) {
+        return stockRepository.findByProducto_IdProAndDeposito_IdDepo(idPro, idDepo);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public boolean hayStockDisponible(Long idPro, Long idDepo, int cantidadSolicitada) {
+        Optional<Stock> stockOpt = stockRepository.findByProducto_IdProAndDeposito_IdDepo(idPro, idDepo);
+        return stockOpt.isPresent() && stockOpt.get().getCantidad() >= cantidadSolicitada;
     }
 }
